@@ -332,20 +332,34 @@ export class MCPVideoDownloaderServer {
    * 启动 MCP 服务器
    */
   async start(): Promise<void> {
-    const transport = new StdioServerTransport();
-    await this.server.connect(transport);
-    
-    logger.info(`MCP 视频下载服务器已启动 (${config.mcp.name} v${config.mcp.version})`);
-    
-    // 定期清理过期任务
-    const cleanupInterval = setInterval(() => {
-      this.ytdlpService.cleanupExpiredTasks();
-    }, 60000); // 每分钟清理一次
+    try {
+      const transport = new StdioServerTransport();
+      await this.server.connect(transport);
+      
+      // MCP服务器启动后不应该输出日志到stdout，因为会干扰MCP通信
+      // logger.info(`MCP 视频下载服务器已启动 (${config.mcp.name} v${config.mcp.version})`);
+      
+      // 定期清理过期任务
+      const cleanupInterval = setInterval(() => {
+        this.ytdlpService.cleanupExpiredTasks();
+      }, 60000); // 每分钟清理一次
 
-    // 优雅关闭时清理定时器
-    process.on('SIGINT', () => {
-      clearInterval(cleanupInterval);
-    });
+      // 优雅关闭时清理定时器
+      process.on('SIGINT', () => {
+        clearInterval(cleanupInterval);
+        process.exit(0);
+      });
+
+      process.on('SIGTERM', () => {
+        clearInterval(cleanupInterval);
+        process.exit(0);
+      });
+
+    } catch (error) {
+      // 错误信息写入stderr，不影响MCP通信
+      console.error('MCP服务器启动失败:', error);
+      process.exit(1);
+    }
   }
 }
 

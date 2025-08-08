@@ -1,6 +1,6 @@
 {
   "name": "@pickstar-2002/video-fetch-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基于 MCP 协议的多平台视频下载服务端",
   "type": "module",
   "main": "dist/index.js",
