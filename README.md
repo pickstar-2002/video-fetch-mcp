@@ -7,6 +7,10 @@
 
 > 🚀 基于 MCP 协议的多平台视频下载服务端，支持 1000+ 视频平台
 
+<a href="https://glama.ai/mcp/servers/@pickstar-2002/video-fetch-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@pickstar-2002/video-fetch-mcp/badge" alt="Video Fetch MCP server" />
+</a>
+
 ## ✨ 特性
 
 - 🎯 **多平台支持**：基于 yt-dlp，支持 YouTube、哔哩哔哩、抖音、Twitter 等 1000+ 平台
